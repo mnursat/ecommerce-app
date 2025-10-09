@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   angular:
       build:
@@ -18,7 +16,7 @@ services:
       - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - Database__ConnectionStrings__DefaultConnection=Host=db;Port=5432;Username=${DB_USER};Password=${DB_PASSWORD};Database=${DB_NAME};
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Username=${DB_USER};Password=${DB_PASSWORD};Database=${DB_NAME};
       - JwtOptions__SecretKey=${JWT_KEY}
       - JwtOptions__ExpiresHours=${JWT_EXPIRES_HOURS}
       - JwtOptions__RefreshTokenExpiresDays=${JWT_REFRESH_TOKEN_EXPIRES_DAYS}
