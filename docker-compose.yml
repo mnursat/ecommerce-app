@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  angular:
+      build:
+        context: ./ecommerce-app-frontend
+        dockerfile: Dockerfile
+      ports:
+        - "4200:80"
+      depends_on:
+        - api
+  api:
+    container_name: ecom-app-api
+    build:
+      context: ./ecommerce-app-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Database__ConnectionStrings__DefaultConnection=Host=db;Port=5432;Username=${DB_USER};Password=${DB_PASSWORD};Database=${DB_NAME};
+      - JwtOptions__SecretKey=${JWT_KEY}
+      - JwtOptions__ExpiresHours=${JWT_EXPIRES_HOURS}
+      - JwtOptions__RefreshTokenExpiresDays=${JWT_REFRESH_TOKEN_EXPIRES_DAYS}
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    container_name: ecom-app-db
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
