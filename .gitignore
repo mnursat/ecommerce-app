@@ -48,6 +48,9 @@ Thumbs.db
 
 # .NET
 
+# Development environment
+appsettings.Development.json
+
 # dotenv files
 .env
 
