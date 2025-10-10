@@ -2,6 +2,7 @@
 
 using EcommerceAppBackend.API.Models;
 using EcommerceAppBackend.API.Persistence.Database;
+using Microsoft.EntityFrameworkCore;
 
 public class DevicesRepository
 {
@@ -16,5 +17,10 @@ public class DevicesRepository
     {
         await _dbContext.Devices.AddAsync(device);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<Device>> GetAllAsync()
+    {
+        return await _dbContext.Devices.ToListAsync();
     }
 }

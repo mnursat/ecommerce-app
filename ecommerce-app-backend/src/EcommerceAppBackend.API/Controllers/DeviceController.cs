@@ -16,12 +16,16 @@ public class DeviceController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<Device>> GetDevicesAsync()
+    public async Task<IActionResult> GetDevicesAsync()
     {
-        var devices = new List<Device>();
+        var devices = await _devicesService.GetAllAsync();
 
+        if (devices is null)
+        {
+            return BadRequest();
+        }
 
-        return devices;
+        return Ok(devices);
     }
 
     [HttpPost]

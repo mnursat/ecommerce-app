@@ -16,4 +16,15 @@ public class DevicesService
     {
         await _devicesRepository.AddAsync(device);
     }
+
+    public async Task<List<Device>> GetAllAsync()
+    {
+        var devices = await _devicesRepository.GetAllAsync();
+        if (devices == null)
+        {
+            return null;
+        }
+
+        return devices;
+    }
 }
